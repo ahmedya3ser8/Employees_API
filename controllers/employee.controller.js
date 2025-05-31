@@ -7,8 +7,9 @@ const getAllEmployees = async (req, res) => {
   const limit = query.limit || 10;
   const page = query.page || 1;
   const skip = (page - 1) * limit;
+  const total = await EmployeeModel.countDocuments();
   const employees = await EmployeeModel.find({}, {"__v": false}).limit(limit).skip(skip);
-  return res.status(200).json({status: SUCCESS, data: { employees }})
+  return res.status(200).json({status: SUCCESS, data: { employees }, total})
 }
 
 const getEmployee = async (req, res) => {
